@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="logincss.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <form action="" id="form">
+        <h1>Register</h1>
+        <hr color="green">
+        <br>
+        <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Gopikesavan" style="height: 25px;">
+            
+                        <div class="error"></div>
+        </div>
+        <div class="input-group">
+            <label for="email">Email</label>
+            <input  id="email" name="email" placeholder="rgopiece2020@gmail.com" style="height: 25px;">
+            <div class="error"></div> 
+        </div>
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Gopi@gra"  style="height: 25px;">
+            <i class="fa-solid fa-eye-slash hidden"  id="passwordhidden"></i> <div class="error"></div>
+        </div>
+        <div class="input-group">
+            <label for="cpassword">Confirm Password</label>
+            <input type="password" id="cpassword" name="cpassword " placeholder="Gopi@gra" style="height: 25px;">
+            <i class="fa-solid fa-eye-slash hidden"  id="passwordhidden"></i> <div class="error"></div>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.querySelector('#form');
+    const username = document.querySelector('#username');
+    const email = document.querySelector('#email');
+    const password = document.querySelector('#password');
+    const cpassword = document.querySelector('#cpassword');
+    const hiddenpassword=document.getElementById("passwordhidden")
+   
+    
+
+    hiddenpassword.addEventListener('click',e=>{
+        
+        if(password.type==="password")
+        {
+            password.type="text"
+            hiddenpassword.classList.remove('fa-eye-slash')
+            hiddenpassword.classList.add('fa-eye')
+            
+        }
+        else{
+            password.type="password";
+            hiddenpassword.classList.add('fa-eye-slash')
+            hiddenpassword.classList.remove('fa-eye')
+        }
+    })
+function repalce()
+{
+
+
+}
+    form.addEventListener('submit', (e) => {
+        if (!validateInputs()) {
+            e.preventDefault();
+        }
+    });
+
+    function validateInputs() {
+        const usernameVal = username.value.trim();
+        const emailVal = email.value.trim();
+        const passwordVal = password.value.trim();
+        const cpasswordVal = cpassword.value.trim();
+        let success = true;
+
+        if (usernameVal === '') {
+            success = false;
+            setError(username, 'Username is required');
+        } else if(usernameVal.length < 6)
+        {
+            success=false;
+            setError(username,'Username must contain at least 6 characters');
+        }
+        else {
+            setSuccess(username);
+        }
+
+        if (emailVal === '') {
+            success = false;
+            setError(email, 'Email is required', true);
+        } else if (!validateEmail(emailVal)) {
+            success = false;
+            setError(email, 'Invalid email', true);
+        } else {
+            setSuccess(email);
+        }
+
+        if (passwordVal === '') {
+            success = false;
+            setError(password, 'Password is required');
+        } else if (passwordVal.length < 8) {
+            success = false;
+            setError(password, 'Password must be at least 8 characters long');
+        } else {
+            setSuccess(password);
+        }
+
+        if (cpasswordVal === '') {
+            success = false;
+            setError(cpassword, 'Confirm password is required');
+        } else if (cpasswordVal !== passwordVal) {
+            success = false;
+            setError(cpassword, 'Passwords do not match');
+        } else {
+            setSuccess(cpassword);
+        }
+
+        return success;
+    }
+
+    function setError(element, message, isEmail = false) {
+        const inputGroup = element.parentElement;
+        const errorElement = inputGroup.querySelector('.error');
+        if (isEmail) {
+            errorElement.innerHTML = message;
+        } else {
+            errorElement.innerText = message;
+        }
+        inputGroup.classList.add('error');
+        inputGroup.classList.remove('success');
+    }
+
+    function setSuccess(element) {
+        const inputGroup = element.parentElement;
+        const errorElement = inputGroup.querySelector('.error');
+
+        errorElement.innerText = '';
+        inputGroup.classList.add('success');
+        inputGroup.classList.remove('error');
+    }
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+  </script>
+</body>
+</html>
